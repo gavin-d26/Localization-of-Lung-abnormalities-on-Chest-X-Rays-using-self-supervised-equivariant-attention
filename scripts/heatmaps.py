@@ -61,7 +61,7 @@ class BBAcc_dataset(BBdataset):
         
 class Heatmaps():
     def __init__(self, model, model_type = 'default',df = None, img_size = 256):
-        self.size = 256
+        self.size = img_size
         self.model = model
         self.model_type = model_type
         self.df = df
@@ -137,7 +137,8 @@ class Heatmaps():
 
 
     # plots heatmaps for all 14 classes
-    def plot_heatmaps14(self, img_index, threshold = None, figure_scale = 64): 
+    @torch.no_grad()
+    def plot_heatmaps8(self, img_index, threshold = None, figure_scale = 64): 
         img, ori_image = self.dataset[img_index]
         img = img.to(device = self.device)
         logit_maps, preds = self.get_logit_maps14(img, threshold=threshold)
@@ -156,9 +157,16 @@ class Heatmaps():
         
         
     # plots heatmaps for all 8 bb classes
-    def plot_heatmaps8(self, img):
-        logit_maps = self.get_logit_maps8(img)  
-        self._plot_heatmaps(logit_maps) 
+    @torch.no_grad()
+    def plot_heatmaps8_with_path(self, img_path, threshold = None, figure_scale = 64): 
+        image = PIL.Image.open(img_path).resize((self.size, self.size), resample= PIL.Image.BILINEAR)
+        image = image.convert('RGB')
+        image = self.dataset.transforms(image)
+        img = img.to(device = self.device)
+        logit_maps, preds = self.get_logit_maps14(img, threshold=threshold)
+        print(preds)
+        self._plot_heatmaps(np.array(image), logit_maps[:8], figure_scale = figure_scale)
+    
     
     
     #generate bounding boxes list for one class and single image  
@@ -251,6 +259,18 @@ class Heatmaps():
         print(gt_bb_list)
         print(preds[:8])
         self._plot_bb(ori_image, heat_maps[:8], threshold_masks14[:8], gt_bb_list, figure_scale=figure_scale)
+        
+    
+    def plot_bb8_with_path(self, img_path, threshold = 0.9, figure_scale = 64, heatmap_thresh = None):
+        image = PIL.Image.open(img_path).resize((self.size, self.size), resample= PIL.Image.BILINEAR)
+        image = image.convert('RGB')
+        image = self.dataset.transforms(image)
+        img = img.to(device = self.device)
+        heat_maps, preds = self.get_logit_maps14(img, threshold= heatmap_thresh)
+        threshold_masks14, _= self.get_logit_maps14(img, threshold)
+        gt_bb_list = []
+        print(preds[:8])
+        self._plot_bb(np.array(image), heat_maps[:8], threshold_masks14[:8], gt_bb_list, figure_scale=figure_scale)
     
 
     @torch.no_grad()

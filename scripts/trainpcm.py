@@ -19,8 +19,7 @@ random.seed(0)
 np.random.seed(0)
 torch.autograd.set_detect_anomaly(True)
 
-
-NUM_CLASSES = config.NUM_CLASSES
+NUM_CLASSES=14
 if __name__=="__main__":
     
     #####
