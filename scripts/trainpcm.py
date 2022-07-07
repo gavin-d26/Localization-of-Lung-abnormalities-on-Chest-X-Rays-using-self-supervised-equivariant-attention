@@ -26,15 +26,15 @@ if __name__=="__main__":
     #####
     parser = argparse.ArgumentParser()
     parser.add_argument('--savedirectory', type=str, help="path to save directory", required=True)
-    parser.add_argument('--runname', type=str, help="name of current run", required=True)
-    parser.add_argument('--projectname', type=str, help="name of wandb project", required=True)
-    parser.add_argument('--entityname', type=str, help="name of wandb entity", required=True)
-    parser.add_argument('--model', type=str, help="Type of model ('resnet50','resnet50PCM','efficientnetb4','efficientnetb4PCM')", required=True)
+    parser.add_argument('--name', type=str, help="name of current run", required=True)
+    parser.add_argument('--project', type=str, help="name of wandb project", required=True)
+    parser.add_argument('--entity', type=str, help="name of wandb entity", required=True)
+    parser.add_argument('--model', type=str, help="Type of model (resnet50, resnet50PCM, efficientnetb4, efficientnetb4PCM)", required=True)
     args = parser.parse_args()
     
-    PROJECT_NAME=args.projectname
-    ENTITY_NAME=args.entityname
-    RUN_NAME=args.runname
+    PROJECT_NAME=args.project
+    ENTITY_NAME=args.entity
+    RUN_NAME=args.name
     SAVE_MODEL_PATH=args.savedirectory
     CHECKPOINT_PATH_WEIGHTS = os.path.join(SAVE_MODEL_PATH, RUN_NAME + '_CW_.pt') 
     FINAL_SAVE_PATH_WEIGHTS = os.path.join(SAVE_MODEL_PATH, RUN_NAME + '_FW_.pt') 
