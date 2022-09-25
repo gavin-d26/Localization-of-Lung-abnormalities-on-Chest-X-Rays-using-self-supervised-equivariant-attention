@@ -8,14 +8,14 @@ DEFAULT_HP = {
             'split_index': 4,    #[0,4]
 
             'lr': 3E-04,
-            'lr_pcm':1E-05,
+            'lr_pcm':1E-06,
             'batch_size': 32,
             'beta1': 0.9,
             'beta2': 0.9,   ###must be .99 or less
             'weight_decay': 0.0, #1E-04,
             'dropout_rate':0,  #????
             'epochs':35, 
-            'epochs_pcm':1,
+            'epochs_pcm':3,
 
             'pooling_type':'LSE',
             'gamma': float(10), #for LSE pooling
@@ -28,6 +28,6 @@ DEFAULT_HP = {
             'mask_scale':0.2,   
             'rotate_angle':30,
             
-            'lambda_ecr':0.5,
-            'lambda_msml':0.5,
+            'lambda_ecr':1.0,
+            'lambda_msml':1.5,
             }

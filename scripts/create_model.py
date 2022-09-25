@@ -139,18 +139,7 @@ class ConvBlock(nn.Module):
         x = self.relu(x)
         return x
     
-        
-class _upsample(nn.Module):
-    def __init__(self, in_channels, out_channels, mode = 'bilinear'):
-        super(_upsample, self).__init__()
-        self.upsample_block = nn.Sequential(nn.Upsample(scale_factor=2, mode = mode, align_corners=True), 
-                                            ConvBlock(in_channels, out_channels))
-        
-        
-    def forward(self, x):
-        return self.upsample_block(x)
                
-
 class _Resnet50(nn.Module):
     def __init__(self):
         super(_Resnet50, self).__init__()
